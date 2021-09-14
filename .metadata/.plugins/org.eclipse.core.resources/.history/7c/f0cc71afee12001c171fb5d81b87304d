@@ -1,0 +1,81 @@
+package com.demo.models;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Objects;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+public class FlightId implements Serializable {
+
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int flightId;
+	private String flightName;
+	private Time startFlightTime;
+	private Time endFlightTime;
+	private String fromPlace;
+	private String toPlace;
+	private java.sql.Date flightDate;
+	// private String scheduledDays;
+	private String instrumentUsed;
+
+	public int getFlightId() {
+		return flightId;
+	}
+
+	public void setFlightId(int flightId) {
+		this.flightId = flightId;
+	}
+
+	public String getFlightName() {
+		return flightName;
+	}
+
+	public void setFlightName(String flightName) {
+		this.flightName = flightName;
+	}
+
+	public Time getStartFlightTime() {
+		return startFlightTime;
+	}
+
+	public void setStartFlightTime(Time startFlightTime) {
+		this.startFlightTime = startFlightTime;
+	}
+
+	public Time getEndFlightTime() {
+		return endFlightTime;
+	}
+
+	public void setEndFlightTime(Time endFlightTime) {
+		this.endFlightTime = endFlightTime;
+	}
+
+	public java.sql.Date getFlightDate() {
+		return flightDate;
+	}
+
+	public void setFlightDate(java.sql.Date flightDate) {
+		this.flightDate = flightDate;
+	}
+
+	public String getInstrumentUsed() {
+		return instrumentUsed;
+	}
+
+	public void setInstrumentUsed(String instrumentUsed) {
+		this.instrumentUsed = instrumentUsed;
+	}
+
+	public String getToPlace() {
+		return toPlace;
+	}
+
+	public void setToPlace(String toPlace) {
+		this.toPlace = toPlace;
+	}
+	
+
+}

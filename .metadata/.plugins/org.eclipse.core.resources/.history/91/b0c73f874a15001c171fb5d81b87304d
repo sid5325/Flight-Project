@@ -1,0 +1,21 @@
+package com.demo.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.demo.entities.User;
+import com.demo.entities.UserEntityId;
+
+public interface UserRepository extends JpaRepository<User, UserEntityId> {
+	
+
+	public List<User> findByTitle(String title);
+
+	@Query(value="select u.* from USER u where u.email_id = ?1", nativeQuery = true)
+	public User viewUserHistory(String emailId);
+	
+
+}
+

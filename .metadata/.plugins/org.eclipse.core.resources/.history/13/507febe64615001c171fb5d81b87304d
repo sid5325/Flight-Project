@@ -1,0 +1,8 @@
+package com.demo.entities;
+
+public class UserEntityId {
+	
+	private int pnrNumber;
+	private String userName;
+	private String emailId;
+}

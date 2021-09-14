@@ -1,0 +1,56 @@
+package com.demo.controllers;
+
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.demo.entities.User;
+import com.demo.entities.UserEntityId;
+import com.demo.models.Flight;
+import com.demo.services.UserService;
+
+@RestController
+public class UserController {
+
+	@Autowired
+	private UserService service;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@GetMapping("/userHistory")
+	public List<User> getUser(UserEntityId user) {
+		return service.getUserHistory(user);
+	}
+	
+	@GetMapping("/userHistory/pnr/{pnr}")
+	public User getUserBookedDetails(int pnr) {
+		return service.getUserHistoryWithPnr(pnr);
+	}
+	
+	@PostMapping("/add")
+	public String addFlight(@RequestBody Flight flight) {
+		System.out.println("In Flight Controller, finding all flight from Flight service");
+		ResponseEntity<String> res = restTemplate.exchange("http://localhost:9091/v2/api/flight/add",
+				// "http://FLIGHT-SERVICE/",
+				HttpMethod.POST, new HttpEntity(flight), new ParameterizedTypeReference<String>() {
+				});
+		return res.getBody();
+	}
+
+}

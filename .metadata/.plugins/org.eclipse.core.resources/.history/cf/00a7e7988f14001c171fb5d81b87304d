@@ -1,0 +1,13 @@
+package com.demo.models;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Admin {
+
+	private String username;
+	private String password;
+
+
+
+}

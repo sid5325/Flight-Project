@@ -1,0 +1,106 @@
+package com.demo.models;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+public class FlightId implements Serializable {
+
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int flightId;
+	
+	@Column(name = "Flight_Name", length =15)
+	private String flightName;
+	private String fromPlace;
+	private String toPlace;
+	private java.sql.Date flightDate;
+	private String instrumentUsed;
+
+	public int getFlightId() {
+		return flightId;
+	}
+
+	public void setFlightId(int flightId) {
+		this.flightId = flightId;
+	}
+
+	public String getFlightName() {
+		return flightName;
+	}
+
+	public void setFlightName(String flightName) {
+		this.flightName = flightName;
+	}
+
+	public java.sql.Date getFlightDate() {
+		return flightDate;
+	}
+
+	public void setFlightDate(java.sql.Date flightDate) {
+		this.flightDate = flightDate;
+	}
+
+	public String getInstrumentUsed() {
+		return instrumentUsed;
+	}
+
+	public void setInstrumentUsed(String instrumentUsed) {
+		this.instrumentUsed = instrumentUsed;
+	}
+
+	public String getToPlace() {
+		return toPlace;
+	}
+
+	public void setToPlace(String toPlace) {
+		this.toPlace = toPlace;
+	}
+
+	public String getFromPlace() {
+		return fromPlace;
+	}
+
+	public void setFromPlace(String fromPlace) {
+		this.fromPlace = fromPlace;
+	}
+
+	public FlightId(int flightId, String flightName, String fromPlace,
+			String toPlace, Date flightDate, String instrumentUsed) {
+		super();
+		this.flightId = flightId;
+		this.flightName = flightName;
+		this.fromPlace = fromPlace;
+		this.toPlace = toPlace;
+		this.flightDate = flightDate;
+		this.instrumentUsed = instrumentUsed;
+	}
+
+	public FlightId() {
+
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(flightDate, flightId, flightName, fromPlace, instrumentUsed, toPlace);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FlightId other = (FlightId) obj;
+		return Objects.equals(flightDate, other.flightDate) && flightId == other.flightId
+				&& Objects.equals(flightName, other.flightName) && Objects.equals(fromPlace, other.fromPlace)
+				&& Objects.equals(instrumentUsed, other.instrumentUsed) && Objects.equals(toPlace, other.toPlace);
+	}
+
+}

@@ -1,0 +1,6 @@
+package com.demo.models;
+
+public class FlightId {
+
+	private int flightId;
+}

@@ -1,0 +1,81 @@
+package com.demo.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.demo.customException.FlightException;
+import com.demo.models.Flight;
+import com.demo.models.FlightId;
+import com.demo.repositories.FlightRepository;
+
+@Service
+public class FlightService {
+
+	@Autowired
+	private FlightRepository flightRepository;
+
+	public List<Flight> getAllFlight() {
+		return flightRepository.findAll();
+
+	}
+
+	public String updateFlight(Flight flight) throws FlightException {
+
+		try {
+			if (flightRepository.getFlightDetails(flight) != null) {
+				flightRepository.save(flight);
+				return "Flight details updated by admin";
+			} else {
+				FlightId id = new FlightId();
+				id.setFlightDate(flight.getFlightId().getFlightDate());
+				id.setFlightNumber(flight.getFlightId().getFlightNumber() + 1);
+				id.setFlightName(flight.getFlightId().getFlightName());
+				id.setFromPlace(flight.getFlightId().getFromPlace());
+				id.setInstrumentUsed(flight.getFlightId().getInstrumentUsed());
+				id.setToPlace(flight.getFlightId().getToPlace());
+				flight.setFlightId(id);
+				flightRepository.save(flight);
+				return "Flight details stored by admin";
+			}
+
+		} catch (Exception e) {
+			throw new FlightException("Error Occured while updating Flight details", e);
+		}
+
+	}
+
+	public List<Flight> getFlight(Flight flight) throws FlightException {
+		List<Flight> list = new ArrayList<Flight>();
+		try {
+			Optional<Flight> optional = flightRepository.findById(flight.getFlightId());
+			if (optional.isPresent()) {
+				list = (List<Flight>) optional.get();
+				return list;
+			}
+
+		} catch (Exception e) {
+			throw new FlightException("Flight not found in db", e);
+		}
+		return list;
+	}
+
+	@ExceptionHandler(value = FlightException.class)
+	public String deleteFlight(Flight flight) throws FlightException {
+				Flight flightFromDb = getFlight(Flight);
+				if (flightFromDb == null) {
+					throw new FlightException("The Flight You are trying to delete is not present in Database");
+				}
+
+				else {
+					flightRepository.delete(flightFromDb);
+					return "Flight successfully deleted from Database";
+		}
+		return null;
+	}
+
+}

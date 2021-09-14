@@ -1,0 +1,35 @@
+package com.demo.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.demo.entities.Movie;
+
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+	
+	/*
+	 * public List<Movie> findAllMovie(){ // find from database and return return
+	 * null; }
+	 * 
+	 * public Movie findMovieById(int id) { // find from database and return return
+	 * null; }
+	 */
+	
+	
+//	public Movie findById(int id);
+	public List<Movie> findByTitle(String title);
+	
+	
+	
+//	@Query("SELECT u FROM User u WHERE u.status = 1")
+//	@Query("SELECT u FROM User u WHERE u.status = ?1 and u.name = ?2")
+	
+//	@Query(value="select m from Movie m where m.rating > ?1", nativeQuery = false) // hql query
+	@Query(value="select * from Movies where rating > ?1", nativeQuery = true)// native sql
+	public List<Movie> filterByRating(double r);
+	
+
+}
+

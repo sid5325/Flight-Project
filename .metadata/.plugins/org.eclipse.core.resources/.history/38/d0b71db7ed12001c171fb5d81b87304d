@@ -1,0 +1,11 @@
+package com.demo.models;
+
+import java.sql.Time;
+
+public class FlightId {
+
+	private int flightId;
+	private String flightName;
+	private Time toFlightTime;
+	private java.sql.Date flightDate;
+}

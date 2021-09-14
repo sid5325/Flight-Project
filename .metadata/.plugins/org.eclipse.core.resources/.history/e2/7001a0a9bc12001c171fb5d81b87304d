@@ -1,0 +1,17 @@
+package com.demo.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.demo.models.Admin;
+
+
+public interface AdminDao extends JpaRepository<Admin, Integer>  {
+
+	@Query(value="select userName,passWord from Admin where id = ?1", nativeQuery = true)// native sql
+	
+	//public List<Movie> filterByRating(double r);
+	public String getVerification(int id);
+		
+	}
+}

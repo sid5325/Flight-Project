@@ -1,0 +1,77 @@
+package com.demo.controllers;
+
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.entities.User;
+import com.demo.entities.UserEntityId;
+import com.demo.services.UserService;
+
+@RestController
+public class UserController {
+
+	@Autowired
+	private UserService service;
+
+	@GetMapping("/userHistory")
+	public List<User> getUser(UserEntityId user) {
+		return service.getUserHistory(user);
+	}
+	
+	@GetMapping("/userHistory")
+	public List<User> getUserBookedDetails(UserEntityId user) {
+		return service.getUserHistory(user);
+	}
+
+	@GetMapping("/userSearch")
+	public List<User> getMoviesByTitle(@PathVariable String title) {
+		return service.getMoviesByTitle(title);
+	}
+
+	@GetMapping("/rating/{r}")
+	public List<User> filterMoviesByRating(@PathVariable double r) {
+		return service.filterMoviesByRating(r);
+	}
+
+	@GetMapping("/{id}")
+	public User getMovie(@PathVariable int id, HttpServletRequest req) {
+		System.out.println(req);
+		Enumeration<String> headers = req.getHeaderNames();
+
+		while (headers.hasMoreElements()) {
+			String headerName = headers.nextElement();
+			String headerValue = req.getHeader(headerName);
+			System.out.println(headerName + "-->" + headerValue);
+		}
+
+		return service.getMovie(id);
+	}
+
+	@PostMapping("")
+	public User saveMovie(@RequestBody User movie) {
+		return service.saveMovie(movie);
+	}
+
+	@PutMapping("/{id}")
+	public User updatMovie(@PathVariable int id, @RequestBody User movie) {
+		System.out.println("Movie to update: " + movie);
+		return service.updatMovie(id, movie);
+	}
+
+	@DeleteMapping("/{id}")
+	public User deleteMovie(@PathVariable int id) {
+		return service.deleteMovie(id);
+	}
+
+}

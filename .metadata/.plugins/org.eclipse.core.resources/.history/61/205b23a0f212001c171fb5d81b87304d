@@ -1,0 +1,13 @@
+package com.demo.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.demo.models.Flight;
+import com.demo.models.FlightId;
+
+public interface FlightRepository extends JpaRepository<Flight, FlightId>{
+
+	
+	Flight getFlightDetails(Flight flight);
+
+}

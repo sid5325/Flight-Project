@@ -1,0 +1,23 @@
+package com.demo.models;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="FLIGHT")
+public class Flight {
+
+	@EmbeddedId
+	private FlightId flightId;
+	
+	private String noOfSeats;
+	private String businessClassSeats;
+	private String nonBusinessClassSeats;
+	private String scheduledDays;
+	private String meal;
+
+	
+	
+	
+}

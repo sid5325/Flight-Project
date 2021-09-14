@@ -1,0 +1,46 @@
+package com.demo.response;
+
+import com.demo.models.Flight;
+
+public class FlightResponse {
+
+	private String status;
+	private Flight flight;
+	private String message;
+
+	public FlightResponse(String status, Flight flight, String message) {
+		super();
+		this.status = status;
+		this.flight = flight;
+		this.message = message;
+	}
+
+	public FlightResponse() {
+
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+}

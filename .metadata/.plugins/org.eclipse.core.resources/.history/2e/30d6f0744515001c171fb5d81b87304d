@@ -1,0 +1,73 @@
+package com.demo.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.entities.Movie;
+import com.demo.repositories.MovieRepository;
+
+@Service
+public class MovieService {
+
+	@Autowired
+	private MovieRepository movieRepository;
+	
+		public List<Movie> getAllMovies(){
+			return movieRepository.findAll();
+		}
+		
+		public List<Movie> getMoviesByTitle(String title){
+			return movieRepository.findByTitle(title);
+		}
+		
+		public List<Movie> filterMoviesByRating(double r){
+			return movieRepository.filterByRating(r);
+		}
+		
+		public Movie getMovie(int id) {
+			Optional<Movie> optional = movieRepository.findById(id);
+			
+			if(optional.isPresent()) {
+				return optional.get();
+			} else {
+				// throw exception
+				System.out.println("Movie with id "+id+" not found in db");
+				return null;
+			}
+		}
+		
+		public Movie saveMovie(Movie movie) {
+			return movieRepository.save(movie);
+		}
+		
+		public Movie updatMovie(int id, Movie movie) {
+			if(movieRepository.existsById(id)) {
+				// perform update
+				movie.setId(id);
+				if(movie.getTitle().length()<4) {
+					// throw exception
+				}
+				return movieRepository.save(movie);
+			} else {
+				// what ??
+				// throw exception
+				System.out.println("Nothing to update");
+				return null;
+			}
+		}
+
+		public Movie deleteMovie(int id) {
+			Movie m = getMovie(id);
+//			movieRepository.deleteById(id);
+
+			if(m==null) {
+//				throw new exceptin
+			} else {				
+				movieRepository.delete(m);
+			}
+			return m;
+		}
+}

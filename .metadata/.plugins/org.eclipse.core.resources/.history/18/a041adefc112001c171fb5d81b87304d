@@ -1,0 +1,30 @@
+package com.demo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.dao.AdminDao;
+import com.demo.models.Admin;
+
+@Service
+public class AdminService {
+
+	@Autowired
+	private AdminDao adminDao;
+
+	public String getVerification(Admin admin) {
+
+		String userNameAndPassword = adminDao.getVerification();
+		String[] split = userNameAndPassword.split(",");
+		if (split[0].equalsIgnoreCase(admin.getUserName()) && 
+				split[1].equalsIgnoreCase(admin.getPassWord())) {
+			return "Admin Login Successful";
+		} else {
+			return "Please check your credentials";
+		}
+
+	}
+
+}

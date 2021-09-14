@@ -1,0 +1,107 @@
+package com.demo.models;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Objects;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+public class FlightId implements Serializable {
+
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int flightId;
+	private String flightName;
+	private Time startFlightTime;
+	private Time endFlightTime;
+	private java.sql.Date flightDate;
+	// private String scheduledDays;
+	private String instrumentUsed;
+
+	public int getFlightId() {
+		return flightId;
+	}
+
+	public void setFlightId(int flightId) {
+		this.flightId = flightId;
+	}
+
+	public String getFlightName() {
+		return flightName;
+	}
+
+	public void setFlightName(String flightName) {
+		this.flightName = flightName;
+	}
+
+	public Time getStartFlightTime() {
+		return startFlightTime;
+	}
+
+	public void setStartFlightTime(Time startFlightTime) {
+		this.startFlightTime = startFlightTime;
+	}
+
+	public Time getEndFlightTime() {
+		return endFlightTime;
+	}
+
+	public void setEndFlightTime(Time endFlightTime) {
+		this.endFlightTime = endFlightTime;
+	}
+
+	public java.sql.Date getFlightDate() {
+		return flightDate;
+	}
+
+	public void setFlightDate(java.sql.Date flightDate) {
+		this.flightDate = flightDate;
+	}
+
+	public String getInstrumentUsed() {
+		return instrumentUsed;
+	}
+
+	public void setInstrumentUsed(String instrumentUsed) {
+		this.instrumentUsed = instrumentUsed;
+	}
+
+	@Override
+	public String toString() {
+		return "FlightId [flightName=" + flightName + ", startFlightTime=" + startFlightTime + ", endFlightTime="
+				+ endFlightTime + ", flightDate=" + flightDate + ", instrumentUsed=" + instrumentUsed + "]";
+	}
+
+	public FlightId(int flightId, String flightName, Time startFlightTime, Time endFlightTime, Date flightDate,
+			String instrumentUsed) {
+		super();
+		this.flightId = flightId;
+		this.flightName = flightName;
+		this.startFlightTime = startFlightTime;
+		this.endFlightTime = endFlightTime;
+		this.flightDate = flightDate;
+		this.instrumentUsed = instrumentUsed;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(endFlightTime, flightDate, flightId, flightName, instrumentUsed, startFlightTime);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FlightId other = (FlightId) obj;
+		return Objects.equals(endFlightTime, other.endFlightTime) && Objects.equals(flightDate, other.flightDate)
+				&& flightId == other.flightId && Objects.equals(flightName, other.flightName)
+				&& Objects.equals(instrumentUsed, other.instrumentUsed)
+				&& Objects.equals(startFlightTime, other.startFlightTime);
+	}
+
+}

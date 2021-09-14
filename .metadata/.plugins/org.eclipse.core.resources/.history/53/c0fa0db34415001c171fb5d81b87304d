@@ -1,0 +1,63 @@
+package com.demo.controllers;
+
+import javax.ws.rs.core.MediaType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.customException.FlightException;
+import com.demo.models.Flight;
+import com.demo.response.FlightResponse;
+import com.demo.service.FlightService;
+
+@RestController
+public class FlightController {
+
+	@Autowired
+	private FlightService service;
+
+	@GetMapping("/search")
+	public FlightResponse getAllFlights() throws FlightException {
+		try {
+			return new FlightResponse("0", service.getAllFlight(), "All flights fetched successfully");
+		} catch (Exception e) {
+			throw new FlightException("Error Occured while blocking Flight", e);
+		}
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+	@ResponseBody
+	public FlightResponse updatMovie(@RequestBody Flight flight) throws FlightException {
+		try {
+			return new FlightResponse("0", null, service.updateFlight(flight));
+		} catch (Exception e) {
+			throw new FlightException("Error Occured while updating Flight", e);
+
+		}
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = "application/json", consumes = "application/json")
+	public FlightResponse deleteFlight(@RequestBody Flight flight) throws FlightException {
+		try {
+			return new FlightResponse("0", null, service.deleteFlight(flight));
+		} catch (Exception e) {
+			throw new FlightException("Error Occured while deleting Flight", e);
+		}
+	}
+
+	@RequestMapping(value = "/blockFlight", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public FlightResponse blockFlight(@RequestBody Flight flight) throws FlightException {
+		try {
+			return new FlightResponse("0", null, service.blockFlight(flight));
+		} catch (Exception e) {
+			throw new FlightException("Error Occured while blocking Flight", e);
+
+		}
+	}
+
+}

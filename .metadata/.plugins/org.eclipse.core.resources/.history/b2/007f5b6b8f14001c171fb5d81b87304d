@@ -1,0 +1,63 @@
+package com.demo.models;
+
+import java.sql.Time;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Admin {
+
+	private String passWord;
+	private Time createTimeStamp;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	public Time getCreateTimeStamp() {
+		return createTimeStamp;
+	}
+
+	public void setCreateTimeStamp(Time createTimeStamp) {
+		this.createTimeStamp = createTimeStamp;
+	}
+
+	@Override
+	public String toString() {
+		return "Admin [userName=" + userName + ", passWord=" + passWord + ", createTimeStamp=" + createTimeStamp + "]";
+	}
+
+	public Admin(String userName, String passWord) {
+		super();
+		this.userName = userName;
+		this.passWord = passWord;
+	}
+
+	public Admin() {
+
+	}
+
+}
