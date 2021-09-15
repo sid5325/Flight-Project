@@ -5,15 +5,21 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.demo.models.Coupon;
 import com.demo.models.Flight;
 import com.demo.response.FlightResponse;
+import com.demo.services.AdminService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class AdminController {
@@ -21,9 +27,9 @@ public class AdminController {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	/*
-	 * @Autowired private AdminService adminService;
-	 */
+	
+	@Autowired private AdminService adminService;
+	
 
 	/*
 	 * @RequestMapping(value = "/login", method = RequestMethod.GET, produces =
@@ -37,7 +43,7 @@ public class AdminController {
 	 * 
 	 * } else { map.put("failure", sucessOrFailure); } return map; }
 	 */
-
+	@ApiOperation(notes = "User name and password are mandatory to enter", response = RestTemplate.class, value = "Used for Authentication")
 	@PostMapping("/add")
 	public FlightResponse addFlight(@RequestBody Flight flight) {
 		System.out.println("In Flight Controller, finding all flight from Flight service");
@@ -55,7 +61,7 @@ public class AdminController {
 		 * headers.setContentType(MediaType.APPLICATION_JSON); HttpEntity<String>
 		 * dataHttpEntity = new HttpEntity<>(headers);
 		 */
-		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:9091/v3/api/flight",
+		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:9091/v3/api/flight/searchAll",
 				HttpMethod.GET, new HttpEntity(null),FlightResponse.class, new ParameterizedTypeReference<FlightResponse>() {
 				});
 		return res.getBody();
@@ -80,4 +86,10 @@ public class AdminController {
 				});
 		return res.getBody();
 	}
+	
+	@PostMapping("/addCoupon")
+	public FlightResponse addCoupon(@RequestBody Coupon coupon) {
+		return new FlightResponse("200", null, adminService.addCoupon(coupon));
+	}
+
 }

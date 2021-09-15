@@ -107,6 +107,20 @@ public class FlightService {
 		}
 	}
 	
+	@ExceptionHandler(value = FlightException.class)
+	public String unBlockFlight(Flight flight) throws FlightException {
+		Flight flightFromDb = getFlight(flight);
+		if (flightFromDb == null) {
+			throw new FlightException("The Flight You are trying to enable is not present in Database");
+		}
+
+		else {
+			flightFromDb.setStatus("Enable");
+			flightRepository.save(flightFromDb);
+			return "Flight enabled and the details be visible to User";
+		}
+	}
+	
 	public List<Flight> getAllFlightForUser(String flightDate,String fromPlace,String ToPlace,String way) {
 		return flightRepository.findAllForUser(flightDate,fromPlace,ToPlace,way);
 

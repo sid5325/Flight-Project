@@ -23,10 +23,10 @@ public class FlightController {
 	@Autowired
 	private FlightService service;
 
-	@GetMapping("")
+	@GetMapping("/searchAll")
 	public FlightResponse getAllFlights() throws FlightException {
 		try {
-			return new FlightResponse("0", service.getAllFlight(), "All flights fetched successfully");
+			return new FlightResponse("200", service.getAllFlight(), "All flights fetched successfully");
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
@@ -37,7 +37,7 @@ public class FlightController {
 	@ResponseBody
 	public FlightResponse updatMovie(@RequestBody Flight flight) throws FlightException {
 		try {
-			return new FlightResponse("0", null, service.updateFlight(flight));
+			return new FlightResponse("200", null, service.updateFlight(flight));
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while updating Flight.Please contact your IT administrator on 8763905325");
@@ -48,7 +48,7 @@ public class FlightController {
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = "application/json", consumes = "application/json")
 	public FlightResponse deleteFlight(@RequestBody Flight flight) throws FlightException {
 		try {
-			return new FlightResponse("0", null, service.deleteFlight(flight));
+			return new FlightResponse("200", null, service.deleteFlight(flight));
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while deleting Flight.Please contact your IT administrator on 8763905325");
@@ -58,7 +58,18 @@ public class FlightController {
 	@RequestMapping(value = "/blockFlight", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public FlightResponse blockFlight(@RequestBody Flight flight) throws FlightException {
 		try {
-			return new FlightResponse("0", null, service.blockFlight(flight));
+			return new FlightResponse("200", null, service.blockFlight(flight));
+		} catch (Exception e) {
+			throw new FlightException(
+					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
+
+		}
+	}
+	
+	@RequestMapping(value = "/unBlockFlight", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public FlightResponse unBlockFlight(@RequestBody Flight flight) throws FlightException {
+		try {
+			return new FlightResponse("200", null, service.unBlockFlight(flight));
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
@@ -69,7 +80,7 @@ public class FlightController {
 	@PostMapping("/searchForUser")
 	public FlightResponse getAllFlightsForUser(@RequestBody UserRequestBody userRequestBody) throws FlightException {
 		try {
-			return new FlightResponse("0",
+			return new FlightResponse("200",
 					service.getAllFlightForUser(userRequestBody.getFlightDate(), userRequestBody.getFromPlace(),
 							userRequestBody.getToPlace(), userRequestBody.getWay()),
 					"All flights fetched successfully");

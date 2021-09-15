@@ -1,34 +1,57 @@
 package com.demo.entities;
 
 import java.sql.Date;
+import java.util.List;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
 public class User {
-	@EmbeddedId
-	private UserEntityId id;
 
+	@Id
+	private int pnrNumber;
+	private String userName;
+
+	private int flightNumber;
 	private java.sql.Date date;
-	private String way;
-	private String arrflightTime;
-	private String depflightTime;
 	private int seatsBooked;
-	private String gender;
 	private String meal;
-	private String seatNumber;
 	private String ticketStatus;
 	private double ticketPicePaid;
+	private String emailId;
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "passenger_details", joinColumns = @JoinColumn(name = "pnrNumber"))
+	private List<Passenger> passenger;
 
-	public UserEntityId getId() {
-		return id;
+	public int getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setId(UserEntityId id) {
-		this.id = id;
+	public void setFlightNumber(int flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public int getPnrNumber() {
+		return pnrNumber;
+	}
+
+	public void setPnrNumber(int pnrNumber) {
+		this.pnrNumber = pnrNumber;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public java.sql.Date getDate() {
@@ -39,30 +62,6 @@ public class User {
 		this.date = date;
 	}
 
-	public String getWay() {
-		return way;
-	}
-
-	public void setWay(String way) {
-		this.way = way;
-	}
-
-	public String getArrflightTime() {
-		return arrflightTime;
-	}
-
-	public void setArrflightTime(String arrflightTime) {
-		this.arrflightTime = arrflightTime;
-	}
-
-	public String getDepflightTime() {
-		return depflightTime;
-	}
-
-	public void setDepflightTime(String depflightTime) {
-		this.depflightTime = depflightTime;
-	}
-
 	public int getSeatsBooked() {
 		return seatsBooked;
 	}
@@ -71,28 +70,12 @@ public class User {
 		this.seatsBooked = seatsBooked;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public String getMeal() {
 		return meal;
 	}
 
 	public void setMeal(String meal) {
 		this.meal = meal;
-	}
-
-	public String getSeatNumber() {
-		return seatNumber;
-	}
-
-	public void setSeatNumber(String seatNumber) {
-		this.seatNumber = seatNumber;
 	}
 
 	public String getTicketStatus() {
@@ -111,20 +94,34 @@ public class User {
 		this.ticketPicePaid = ticketPicePaid;
 	}
 
-	public User(UserEntityId id, Date date, String way, String arrflightTime, String depflightTime, int seatsBooked,
-			String gender, String meal, String seatNumber, String ticketStatus, double ticketPicePaid) {
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public List<Passenger> getPassenger() {
+		return passenger;
+	}
+
+	public void setPassenger(List<Passenger> passenger) {
+		this.passenger = passenger;
+	}
+
+	public User(int pnrNumber, String userName, Date date, int seatsBooked, String meal, String ticketStatus,
+			double ticketPicePaid, String emailId, List<Passenger> passenger) {
 		super();
-		this.id = id;
+		this.pnrNumber = pnrNumber;
+		this.userName = userName;
 		this.date = date;
-		this.way = way;
-		this.arrflightTime = arrflightTime;
-		this.depflightTime = depflightTime;
 		this.seatsBooked = seatsBooked;
-		this.gender = gender;
 		this.meal = meal;
-		this.seatNumber = seatNumber;
 		this.ticketStatus = ticketStatus;
 		this.ticketPicePaid = ticketPicePaid;
+		this.emailId = emailId;
+		this.passenger = passenger;
 	}
 
 	public User() {
