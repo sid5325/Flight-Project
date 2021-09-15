@@ -6,8 +6,9 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Embeddable
 public class FlightId implements Serializable {
@@ -18,7 +19,8 @@ public class FlightId implements Serializable {
 	private String fromPlace;
 	@Column(name = "To_Place", length = 15)
 	private String toPlace;
-	private java.sql.Date flightDate;
+	@JsonFormat(pattern = "yyyy-MM-dd",shape = Shape.STRING)
+	private String flightDate;
 	@Column(name = "Instrument_Used", length = 10)
 	private String instrumentUsed;
 
@@ -30,11 +32,11 @@ public class FlightId implements Serializable {
 		this.flightName = flightName;
 	}
 
-	public java.sql.Date getFlightDate() {
+	public String getFlightDate() {
 		return flightDate;
 	}
 
-	public void setFlightDate(java.sql.Date flightDate) {
+	public void setFlightDate(String flightDate) {
 		this.flightDate = flightDate;
 	}
 
@@ -62,7 +64,7 @@ public class FlightId implements Serializable {
 		this.fromPlace = fromPlace;
 	}
 
-	public FlightId(String flightName, String fromPlace, String toPlace, Date flightDate, String instrumentUsed) {
+	public FlightId(String flightName, String fromPlace, String toPlace, String flightDate, String instrumentUsed) {
 		super();
 		this.flightName = flightName;
 		this.fromPlace = fromPlace;

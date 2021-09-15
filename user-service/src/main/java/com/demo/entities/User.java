@@ -19,7 +19,7 @@ public class User {
 	private int seatsBooked;
 	private String gender;
 	private String meal;
-	private int seatNumber;
+	private String seatNumber;
 	private String ticketStatus;
 	private double ticketPicePaid;
 
@@ -87,11 +87,11 @@ public class User {
 		this.meal = meal;
 	}
 
-	public int getSeatNumber() {
+	public String getSeatNumber() {
 		return seatNumber;
 	}
 
-	public void setSeatNumber(int seatNumber) {
+	public void setSeatNumber(String seatNumber) {
 		this.seatNumber = seatNumber;
 	}
 
@@ -112,7 +112,7 @@ public class User {
 	}
 
 	public User(UserEntityId id, Date date, String way, String arrflightTime, String depflightTime, int seatsBooked,
-			String gender, String meal, int seatNumber, String ticketStatus, double ticketPicePaid) {
+			String gender, String meal, String seatNumber, String ticketStatus, double ticketPicePaid) {
 		super();
 		this.id = id;
 		this.date = date;

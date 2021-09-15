@@ -15,7 +15,6 @@ public class Flight {
 	private String businessClassSeats;
 	private String nonBusinessClassSeats;
 	private String scheduledDays;
-	private String meal;
 	private double ticketCost;
 	private String startFlightTime;
 	private String endFlightTime;
@@ -77,14 +76,6 @@ public class Flight {
 		this.scheduledDays = scheduledDays;
 	}
 
-	public String getMeal() {
-		return meal;
-	}
-
-	public void setMeal(String meal) {
-		this.meal = meal;
-	}
-
 	public double getTicketCost() {
 		return ticketCost;
 	}
@@ -110,7 +101,7 @@ public class Flight {
 	}
 
 	public Flight(FlightId flightId, Integer flightNumber, String noOfSeats, String businessClassSeats,
-			String nonBusinessClassSeats, String scheduledDays, String meal, double ticketCost, String startFlightTime,
+			String nonBusinessClassSeats, String scheduledDays, double ticketCost, String startFlightTime,
 			String endFlightTime, String status) {
 		super();
 		this.flightId = flightId;
@@ -119,7 +110,6 @@ public class Flight {
 		this.businessClassSeats = businessClassSeats;
 		this.nonBusinessClassSeats = nonBusinessClassSeats;
 		this.scheduledDays = scheduledDays;
-		this.meal = meal;
 		this.ticketCost = ticketCost;
 		this.startFlightTime = startFlightTime;
 		this.endFlightTime = endFlightTime;

@@ -4,6 +4,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.customException.FlightException;
 import com.demo.models.Flight;
+import com.demo.models.UserRequestBody;
 import com.demo.response.FlightResponse;
 import com.demo.service.FlightService;
 
@@ -26,7 +28,8 @@ public class FlightController {
 		try {
 			return new FlightResponse("0", service.getAllFlight(), "All flights fetched successfully");
 		} catch (Exception e) {
-			throw new FlightException("Error Occured while blocking Flight.Please contact your IT admistrator on 8763905325");
+			throw new FlightException(
+					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
 		}
 	}
 
@@ -36,7 +39,8 @@ public class FlightController {
 		try {
 			return new FlightResponse("0", null, service.updateFlight(flight));
 		} catch (Exception e) {
-			throw new FlightException("Error Occured while updating Flight.Please contact your IT admistrator on 8763905325");
+			throw new FlightException(
+					"Error Occured while updating Flight.Please contact your IT administrator on 8763905325");
 
 		}
 	}
@@ -46,7 +50,8 @@ public class FlightController {
 		try {
 			return new FlightResponse("0", null, service.deleteFlight(flight));
 		} catch (Exception e) {
-			throw new FlightException("Error Occured while deleting Flight.Please contact your IT admistrator on 8763905325");
+			throw new FlightException(
+					"Error Occured while deleting Flight.Please contact your IT administrator on 8763905325");
 		}
 	}
 
@@ -55,8 +60,22 @@ public class FlightController {
 		try {
 			return new FlightResponse("0", null, service.blockFlight(flight));
 		} catch (Exception e) {
-			throw new FlightException("Error Occured while blocking Flight.Please contact your IT admistrator on 8763905325");
+			throw new FlightException(
+					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
 
+		}
+	}
+
+	@PostMapping("/searchForUser")
+	public FlightResponse getAllFlightsForUser(@RequestBody UserRequestBody userRequestBody) throws FlightException {
+		try {
+			return new FlightResponse("0",
+					service.getAllFlightForUser(userRequestBody.getFlightDate(), userRequestBody.getFromPlace(),
+							userRequestBody.getToPlace(), userRequestBody.getWay()),
+					"All flights fetched successfully");
+		} catch (Exception e) {
+			throw new FlightException(
+					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
 		}
 	}
 

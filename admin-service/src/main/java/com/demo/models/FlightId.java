@@ -9,6 +9,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Embeddable
 public class FlightId implements Serializable {
 
@@ -23,6 +25,7 @@ public class FlightId implements Serializable {
 	private String fromPlace;
 	@Column(name = "To_Place", length = 15)
 	private String toPlace;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY/MM/DD")
 	private java.sql.Date flightDate;
 	@Column(name = "Instrument_Used", length = 10)
 	private String instrumentUsed;

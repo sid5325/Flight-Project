@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.demo.customException.FlightException;
 import com.demo.models.Flight;
-import com.demo.models.FlightId;
 import com.demo.repositories.FlightRepository;
 
 @Service
@@ -106,6 +105,11 @@ public class FlightService {
 			flightRepository.save(flightFromDb);
 			return "Flight disabled and the details won't be visible to User";
 		}
+	}
+	
+	public List<Flight> getAllFlightForUser(String flightDate,String fromPlace,String ToPlace,String way) {
+		return flightRepository.findAllForUser(flightDate,fromPlace,ToPlace,way);
+
 	}
 
 }
