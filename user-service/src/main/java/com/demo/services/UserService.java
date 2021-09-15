@@ -19,7 +19,7 @@ public class UserService {
 	@Autowired
 	private PdfGenerator pdfGenerator;
 	
-	public List<User> getUserHistoryWithPnr(String mail) {
+	public List<User> getUserHistoryWithMailId(String mail) {
 		List<User> opt = userRepository.viewUserHistory(mail);
 		if (!(opt.isEmpty() || opt==null)) {
 			return opt;

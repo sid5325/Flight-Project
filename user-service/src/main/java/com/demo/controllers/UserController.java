@@ -2,7 +2,6 @@ package com.demo.controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -19,28 +18,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.entities.User;
 import com.demo.exception.DataNotFoundException;
+import com.demo.exception.UserNotFoundException;
 import com.demo.services.UserService;
+import com.demo.utility.UserResponse;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserService service;
-	
+
 	@GetMapping("/userHistory/{mail}")
-	public List<User> getUserBookedDetails(@PathVariable String mail) {
-		return service.getUserHistoryWithPnr(mail);
+	public UserResponse getUserBookedDetails(@PathVariable String mail) throws UserNotFoundException {
+		try {
+			return new UserResponse("200", service.getUserHistoryWithMailId(mail),
+					"All details of user Fetched successfully");
+		} catch (Exception e) {
+			throw new UserNotFoundException("Error happened while fetching user details");
+		}
 	}
-	
+
 	@PostMapping("/bookUser/{flightNumber}")
-	public String bookUser(@RequestBody User user,@PathVariable int flightNumber) {
-		user.setFlightNumber(flightNumber);
-		return service.bookUser(user);
+	public UserResponse bookUser(@RequestBody User user, @PathVariable int flightNumber) throws UserNotFoundException {
+		try {
+			user.setFlightNumber(flightNumber);
+			return new UserResponse("200", null, service.bookUser(user));
+		} catch (Exception e) {
+			throw new UserNotFoundException("Error happened while booking user details");
+		}
 	}
-	
+
 	@DeleteMapping("/cancel/{pnr}")
-	public String deleteByPnr(@PathVariable int pnr) {
-		return service.deleteByPnr(pnr);
+	public UserResponse deleteByPnr(@PathVariable int pnr) {
+		return new UserResponse("200", null, service.deleteByPnr(pnr));
 	}
 
 	@GetMapping("/download/{pnrnum}")

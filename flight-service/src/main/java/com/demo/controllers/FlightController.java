@@ -4,7 +4,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.customException.FlightException;
 import com.demo.models.Flight;
-import com.demo.models.UserRequestBody;
 import com.demo.response.FlightResponse;
 import com.demo.service.FlightService;
 
@@ -65,7 +63,7 @@ public class FlightController {
 
 		}
 	}
-	
+
 	@RequestMapping(value = "/unBlockFlight", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public FlightResponse unBlockFlight(@RequestBody Flight flight) throws FlightException {
 		try {
@@ -74,19 +72,6 @@ public class FlightController {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
 
-		}
-	}
-
-	@PostMapping("/searchForUser")
-	public FlightResponse getAllFlightsForUser(@RequestBody UserRequestBody userRequestBody) throws FlightException {
-		try {
-			return new FlightResponse("200",
-					service.getAllFlightForUser(userRequestBody.getFlightDate(), userRequestBody.getFromPlace(),
-							userRequestBody.getToPlace(), userRequestBody.getWay()),
-					"All flights fetched successfully");
-		} catch (Exception e) {
-			throw new FlightException(
-					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
 		}
 	}
 

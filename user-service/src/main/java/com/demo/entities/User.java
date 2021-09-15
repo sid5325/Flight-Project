@@ -26,6 +26,9 @@ public class User {
 	private String ticketStatus;
 	private double ticketPicePaid;
 	private String emailId;
+	private String arrivalDate;
+	private String departDate;
+	private String flightName;
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "passenger_details", joinColumns = @JoinColumn(name = "pnrNumber"))
 	private List<Passenger> passenger;
@@ -110,17 +113,46 @@ public class User {
 		this.passenger = passenger;
 	}
 
-	public User(int pnrNumber, String userName, Date date, int seatsBooked, String meal, String ticketStatus,
-			double ticketPicePaid, String emailId, List<Passenger> passenger) {
+	public String getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(String arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
+	public String getDepartDate() {
+		return departDate;
+	}
+
+	public void setDepartDate(String departDate) {
+		this.departDate = departDate;
+	}
+
+	public String getFlightName() {
+		return flightName;
+	}
+
+	public void setFlightName(String flightName) {
+		this.flightName = flightName;
+	}
+
+	public User(int pnrNumber, String userName, int flightNumber, Date date, int seatsBooked, String meal,
+			String ticketStatus, double ticketPicePaid, String emailId, String arrivalDate, String departDate,
+			String flightName, List<Passenger> passenger) {
 		super();
 		this.pnrNumber = pnrNumber;
 		this.userName = userName;
+		this.flightNumber = flightNumber;
 		this.date = date;
 		this.seatsBooked = seatsBooked;
 		this.meal = meal;
 		this.ticketStatus = ticketStatus;
 		this.ticketPicePaid = ticketPicePaid;
 		this.emailId = emailId;
+		this.arrivalDate = arrivalDate;
+		this.departDate = departDate;
+		this.flightName = flightName;
 		this.passenger = passenger;
 	}
 
