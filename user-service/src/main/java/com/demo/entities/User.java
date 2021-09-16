@@ -26,9 +26,11 @@ public class User {
 	private String ticketStatus;
 	private double ticketPicePaid;
 	private String emailId;
-	private String arrivalDate;
-	private String departDate;
+	private String arrivalTime;
+	private String departTime;
 	private String flightName;
+	private String fromPlace;
+	private String toPlace;
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "passenger_details", joinColumns = @JoinColumn(name = "pnrNumber"))
 	private List<Passenger> passenger;
@@ -113,20 +115,20 @@ public class User {
 		this.passenger = passenger;
 	}
 
-	public String getArrivalDate() {
-		return arrivalDate;
+	public String getArrivalTime() {
+		return arrivalTime;
 	}
 
-	public void setArrivalDate(String arrivalDate) {
-		this.arrivalDate = arrivalDate;
+	public void setArrivalTime(String arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
-	public String getDepartDate() {
-		return departDate;
+	public String getDepartTime() {
+		return departTime;
 	}
 
-	public void setDepartDate(String departDate) {
-		this.departDate = departDate;
+	public void setDepartTime(String departTime) {
+		this.departTime = departTime;
 	}
 
 	public String getFlightName() {
@@ -137,9 +139,25 @@ public class User {
 		this.flightName = flightName;
 	}
 
+	public String getFromPlace() {
+		return fromPlace;
+	}
+
+	public void setFromPlace(String fromPlace) {
+		this.fromPlace = fromPlace;
+	}
+
+	public String getToPlace() {
+		return toPlace;
+	}
+
+	public void setToPlace(String toPlace) {
+		this.toPlace = toPlace;
+	}
+
 	public User(int pnrNumber, String userName, int flightNumber, Date date, int seatsBooked, String meal,
-			String ticketStatus, double ticketPicePaid, String emailId, String arrivalDate, String departDate,
-			String flightName, List<Passenger> passenger) {
+			String ticketStatus, double ticketPicePaid, String emailId, String arrivalTime, String departTime,
+			String flightName, String fromPlace, String toPlace, List<Passenger> passenger) {
 		super();
 		this.pnrNumber = pnrNumber;
 		this.userName = userName;
@@ -150,9 +168,11 @@ public class User {
 		this.ticketStatus = ticketStatus;
 		this.ticketPicePaid = ticketPicePaid;
 		this.emailId = emailId;
-		this.arrivalDate = arrivalDate;
-		this.departDate = departDate;
+		this.arrivalTime = arrivalTime;
+		this.departTime = departTime;
 		this.flightName = flightName;
+		this.fromPlace = fromPlace;
+		this.toPlace = toPlace;
 		this.passenger = passenger;
 	}
 

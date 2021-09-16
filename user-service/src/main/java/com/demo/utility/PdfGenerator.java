@@ -25,14 +25,14 @@ public class PdfGenerator {
 			PdfWriter.getInstance(document, fos);
 			document.open();
 			Paragraph title = new Paragraph("BOOKING DETAILS",
-					FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, new BaseColor(20, 255, 255)));
+					FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 14, Font.BOLDITALIC, new BaseColor(20, 255, 255)));
 			title.setAlignment(Element.ALIGN_CENTER);
 			document.add(title);
 			document.add(new Paragraph(" "));
 			Paragraph pnr = new Paragraph("PNR  " + " " + user.getPnrNumber());
 			document.add(pnr);
 			System.out.println("para started");
-			Paragraph fname = new Paragraph("AIRLINE  " + " ");
+			Paragraph fname = new Paragraph("AIRLINE  " + " " +(user.getFlightName()));
 			fname.setAlignment(Element.ALIGN_JUSTIFIED);
 			document.add(fname);
 
@@ -43,20 +43,22 @@ public class PdfGenerator {
 			fname.setAlignment(Element.ALIGN_JUSTIFIED);
 			document.add(seat);
 
-			/*
-			 * Paragraph fromPlace=new Paragraph("From "+" "+ pdf.getFrom());
-			 * fname.setAlignment(Element.ALIGN_RIGHT); document.add(fromPlace); Paragraph
-			 * to=new Paragraph("TO "+" "+ user.get);
-			 * fname.setAlignment(Element.ALIGN_RIGHT); document.add(to); Paragraph dept=new
-			 * Paragraph("DEPT TIME "+" "+ pdf.getDeptName());
-			 * fname.setAlignment(Element.ALIGN_RIGHT); document.add(dept); Paragraph
-			 * arrt=new Paragraph("ARR. TIME "+" "+ pdf.getArrTime());
-			 * fname.setAlignment(Element.ALIGN_RIGHT); document.add(arrt);
-			 */
+			Paragraph fromPlace = new Paragraph("From " + " " + user.getFromPlace());
+			fname.setAlignment(Element.ALIGN_RIGHT);
+			document.add(fromPlace);
+			Paragraph to = new Paragraph("TO " + " " + user.getToPlace());
+			fname.setAlignment(Element.ALIGN_RIGHT);
+			document.add(to);
+			Paragraph departTime = new Paragraph("DEPART. TIME " + " " + user.getDepartTime());
+			fname.setAlignment(Element.ALIGN_RIGHT);
+			document.add(departTime);
+			Paragraph arrt = new Paragraph("ARR. TIME " + " " + user.getArrivalTime());
+			fname.setAlignment(Element.ALIGN_RIGHT);
+			document.add(arrt);
 
 			Paragraph pass = new Paragraph("PASSENGER DETAILS",
-					FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, new BaseColor(200, 200, 255)));
-			title.setAlignment(Element.ALIGN_LEFT);
+					FontFactory.getFont(FontFactory.HELVETICA_BOLDOBLIQUE, 14, Font.BOLDITALIC, new BaseColor(200, 200, 255)));
+			title.setAlignment(Element.ALIGN_CENTER);
 
 			fname.setAlignment(Element.ALIGN_JUSTIFIED);
 			document.add(pass);
