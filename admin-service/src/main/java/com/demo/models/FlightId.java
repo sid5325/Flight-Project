@@ -1,23 +1,16 @@
 package com.demo.models;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Embeddable
 public class FlightId implements Serializable {
-
-	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Flight_Number", length = 15)
-	private int flightNumber;
 
 	@Column(name = "Flight_Name", length = 15)
 	private String flightName;
@@ -25,18 +18,10 @@ public class FlightId implements Serializable {
 	private String fromPlace;
 	@Column(name = "To_Place", length = 15)
 	private String toPlace;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY/MM/DD")
-	private java.sql.Date flightDate;
+	@JsonFormat(pattern = "yyyy-MM-dd",shape = Shape.STRING)
+	private String flightDate;
 	@Column(name = "Instrument_Used", length = 10)
 	private String instrumentUsed;
-
-	public int getFlightNumber() {
-		return flightNumber;
-	}
-
-	public void setFlightNumber(int flightNumber) {
-		this.flightNumber = flightNumber;
-	}
 
 	public String getFlightName() {
 		return flightName;
@@ -46,11 +31,11 @@ public class FlightId implements Serializable {
 		this.flightName = flightName;
 	}
 
-	public java.sql.Date getFlightDate() {
+	public String getFlightDate() {
 		return flightDate;
 	}
 
-	public void setFlightDate(java.sql.Date flightDate) {
+	public void setFlightDate(String flightDate) {
 		this.flightDate = flightDate;
 	}
 
@@ -78,10 +63,8 @@ public class FlightId implements Serializable {
 		this.fromPlace = fromPlace;
 	}
 
-	public FlightId(int flightNumber, String flightName, String fromPlace, String toPlace, Date flightDate,
-			String instrumentUsed) {
+	public FlightId(String flightName, String fromPlace, String toPlace, String flightDate, String instrumentUsed) {
 		super();
-		this.flightNumber = flightNumber;
 		this.flightName = flightName;
 		this.fromPlace = fromPlace;
 		this.toPlace = toPlace;
@@ -95,7 +78,7 @@ public class FlightId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(flightDate, flightNumber, flightName, fromPlace, instrumentUsed, toPlace);
+		return Objects.hash(flightDate, flightName, fromPlace, instrumentUsed, toPlace);
 	}
 
 	@Override
@@ -107,9 +90,9 @@ public class FlightId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		FlightId other = (FlightId) obj;
-		return Objects.equals(flightDate, other.flightDate) && flightNumber == other.flightNumber
-				&& Objects.equals(flightName, other.flightName) && Objects.equals(fromPlace, other.fromPlace)
-				&& Objects.equals(instrumentUsed, other.instrumentUsed) && Objects.equals(toPlace, other.toPlace);
+		return Objects.equals(flightDate, other.flightDate) && Objects.equals(flightName, other.flightName)
+				&& Objects.equals(fromPlace, other.fromPlace) && Objects.equals(instrumentUsed, other.instrumentUsed)
+				&& Objects.equals(toPlace, other.toPlace);
 	}
 
 }

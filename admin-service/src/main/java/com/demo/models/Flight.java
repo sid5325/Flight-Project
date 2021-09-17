@@ -10,7 +10,7 @@ public class Flight {
 
 	@EmbeddedId
 	private FlightId flightId;
-
+	private Integer flightNumber;
 	private String noOfSeats;
 	private String businessClassSeats;
 	private String nonBusinessClassSeats;
@@ -19,8 +19,14 @@ public class Flight {
 	private String startFlightTime;
 	private String endFlightTime;
 	private String status;
-	private String way;
-	private double maxDiscount;
+
+	public Integer getFlightNumber() {
+		return flightNumber;
+	}
+
+	public void setFlightNumber(Integer flightNumber) {
+		this.flightNumber = flightNumber;
+	}
 
 	public String getStatus() {
 		return status;
@@ -94,29 +100,12 @@ public class Flight {
 		this.endFlightTime = endFlightTime;
 	}
 
-	public double getMaxDiscount() {
-		return maxDiscount;
-	}
-
-	public void setMaxDiscount(double maxDiscount) {
-		this.maxDiscount = maxDiscount;
-	}
-
-	public String getWay() {
-		return way;
-	}
-
-	public void setWay(String way) {
-		this.way = way;
-	}
-
-	public Flight(double maxDiscount, String status, FlightId flightId, String noOfSeats, String businessClassSeats,
+	public Flight(FlightId flightId, Integer flightNumber, String noOfSeats, String businessClassSeats,
 			String nonBusinessClassSeats, String scheduledDays, double ticketCost, String startFlightTime,
-			String endFlightTime, String way) {
+			String endFlightTime, String status) {
 		super();
-		this.maxDiscount = maxDiscount;
-		this.status = status;
 		this.flightId = flightId;
+		this.flightNumber = flightNumber;
 		this.noOfSeats = noOfSeats;
 		this.businessClassSeats = businessClassSeats;
 		this.nonBusinessClassSeats = nonBusinessClassSeats;
@@ -124,7 +113,7 @@ public class Flight {
 		this.ticketCost = ticketCost;
 		this.startFlightTime = startFlightTime;
 		this.endFlightTime = endFlightTime;
-		this.way = way;
+		this.status = status;
 	}
 
 	public Flight() {

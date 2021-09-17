@@ -53,7 +53,7 @@ public class UserController {
 		return new UserResponse("200", null, service.deleteByPnr(pnr));
 	}
 
-	@GetMapping("/download/{pnrnum}")
+	/*@GetMapping("/download/{pnrnum}")
 	public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable String pnrnum) throws DataNotFoundException {
 		String path = "D:\\pdf Generator\\" + pnrnum + ".pdf";
 		try {
@@ -69,5 +69,5 @@ public class UserController {
 			String message = "Ticket " + pnrnum + ".pdf is not there to download ";
 			throw new DataNotFoundException(message);
 		}
-	}
+	}*/
 }

@@ -84,7 +84,7 @@ public class FlightService {
 	public String deleteFlight(Flight flight) throws FlightException {
 		Flight flightFromDb = getFlight(flight);
 		if (flightFromDb == null) {
-			throw new FlightException("The Flight You are trying to delete is not present in Database");
+			return "The Flight you are trying to delete is not present from Database";
 		}
 
 		else {
@@ -97,7 +97,7 @@ public class FlightService {
 	public String blockFlight(Flight flight) throws FlightException {
 		Flight flightFromDb = getFlight(flight);
 		if (flightFromDb == null) {
-			throw new FlightException("The Flight You are trying to block is not present in Database");
+			return "The Flight You are trying to block is not present in Database";
 		}
 
 		else {
@@ -111,7 +111,7 @@ public class FlightService {
 	public String unBlockFlight(Flight flight) throws FlightException {
 		Flight flightFromDb = getFlight(flight);
 		if (flightFromDb == null) {
-			throw new FlightException("The Flight You are trying to enable is not present in Database");
+			return "The Flight You are trying to enable is not present in Database";
 		}
 
 		else {
@@ -121,8 +121,8 @@ public class FlightService {
 		}
 	}
 	
-	public List<Flight> getAllFlightForUser(String flightDate,String fromPlace,String ToPlace,String way) {
-		return flightRepository.findAllForUser(flightDate,fromPlace,ToPlace,way);
+	public List<Flight> getAllFlightForUser(String flightDate,String fromPlace,String ToPlace) {
+		return flightRepository.findFlightForUser(flightDate,fromPlace,ToPlace);
 
 	}
 

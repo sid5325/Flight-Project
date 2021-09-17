@@ -8,18 +8,22 @@ public class Coupon {
 
 	@Id
 	private String couponCode;
-	private String discount;
+	private int discount;
+
 	public String getCouponCode() {
 		return couponCode;
 	}
+
 	public void setCouponCode(String couponCode) {
 		this.couponCode = couponCode;
 	}
-	public String getDiscount() {
+
+	public int getDiscount() {
 		return discount;
 	}
-	public void setDiscount(String discount) {
+
+	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
-	
+
 }

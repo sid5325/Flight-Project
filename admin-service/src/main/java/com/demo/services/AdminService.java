@@ -1,15 +1,15 @@
 package com.demo.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.demo.dao.AdminDao;
 import com.demo.dao.CouponDao;
-import com.demo.models.AdminDto;
 import com.demo.models.Coupon;
 
 @Service
@@ -17,7 +17,7 @@ public class AdminService {
 
 	@Autowired
 	private AdminDao adminDao;
-	
+
 	@Autowired
 	private CouponDao couponDao;
 
@@ -33,6 +33,22 @@ public class AdminService {
 			couponDao.save(coupon);
 			return "Coupon updated successfully" + " with" + " coupon code " + coupon.getCouponCode();
 		}
+	}
+
+	public List<Coupon> viewCoupon() {
+		List<Coupon> coupon = couponDao.findAll();
+		return coupon;
+	}
+
+	public Map<Integer, String> userAddCoupon(String coupon) {
+		Map<Integer, String> map = new HashMap<>();
+		Optional<Coupon> coupo = couponDao.findById(coupon);
+		if (coupo.isPresent()) {
+			map.put(coupo.get().getDiscount(), "Coupon code applied successfully");
+		} else {
+			map.put(0, "Please enter a valid coupon");
+		}
+		return map;
 	}
 
 	/*

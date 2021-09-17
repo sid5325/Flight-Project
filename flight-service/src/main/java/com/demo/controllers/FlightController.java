@@ -4,6 +4,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import com.demo.response.FlightResponse;
 import com.demo.service.FlightService;
 
 @RestController
+@RequestMapping("/v3/api/flight/")
 public class FlightController {
 
 	@Autowired
@@ -68,6 +70,18 @@ public class FlightController {
 	public FlightResponse unBlockFlight(@RequestBody Flight flight) throws FlightException {
 		try {
 			return new FlightResponse("200", null, service.unBlockFlight(flight));
+		} catch (Exception e) {
+			throw new FlightException(
+					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
+
+		}
+	}
+	
+	@GetMapping("/getFlightForUser/{flightDate}/{fromPlace}/{toPlace}")
+	public FlightResponse getAllFlightForUser(@PathVariable String flightDate, @PathVariable String fromPlace,
+			@PathVariable String toPlace) throws FlightException {
+		try {
+			return new FlightResponse("200", service.getAllFlightForUser(flightDate,fromPlace,toPlace),null);
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");

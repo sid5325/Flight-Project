@@ -17,7 +17,7 @@ public interface FlightRepository extends JpaRepository<Flight, FlightId> {
 	@Query(value = "select max(f.flight_number) from Flight f", nativeQuery = true)
 	Integer getMaxFlightNumber(Flight flight);
 
-	@Query(value = "select f.* from Flight f where flight f.flight_date=?1 and f.from_place=?2 and f.to_place=?3 and f.way=?4", nativeQuery = true)
-	List<Flight> findAllForUser(String flightDate, String fromPlace, String ToPlace, String way);
+	@Query(value = "select f.* from Flight f where f.flight_date=?1 and f.from_place=?2 and f.to_place=?3 ", nativeQuery = true)
+	List<Flight> findFlightForUser(String flightDate, String fromPlace, String ToPlace);
 
 }
