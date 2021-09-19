@@ -55,7 +55,7 @@ public class UserService {
 			userRepository.deleteById(pnr);
 			return "User with " + pnr + " got successfully deleted";
 		} else {
-			return "User not found in database";
+			return "The pnr number you are trying to search is not found";
 		}
 	}
 }

@@ -21,16 +21,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.demo.models.User;
 import com.demo.exception.DataNotFoundException;
 import com.demo.models.Coupon;
 import com.demo.models.Flight;
+import com.demo.models.User;
 import com.demo.response.FlightResponse;
 import com.demo.response.UserResponse;
 import com.demo.services.AdminService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api // (value = "Used for Authentication")
 @RestController
 public class AdminController {
 
@@ -52,7 +54,7 @@ public class AdminController {
 	 * 
 	 * } else { map.put("failure", sucessOrFailure); } return map; }
 	 */
-	@ApiOperation(notes = "User name and password are mandatory to enter", response = RestTemplate.class, value = "Used for Authentication")
+	@ApiOperation(notes = "Admin add flight", response = RestTemplate.class, value = "Admin can add any number flights")
 	@PostMapping("/add")
 	public FlightResponse addFlight(@RequestBody Flight flight) {
 		System.out.println("In Flight Controller, finding all flight from Flight service");
@@ -62,6 +64,7 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "Admin can search all flights", response = RestTemplate.class, value = "Search all flights from database for Admin")
 	@GetMapping("/search")
 	public FlightResponse searchFlight() {
 		System.out.println("Search all Flight for Admin");
@@ -72,8 +75,9 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "Delete Flight", response = RestTemplate.class, value = "Admin can delete any number flights")
 	@DeleteMapping("/delete")
-	public FlightResponse deleteFlight() {
+	public FlightResponse deleteFlight(@RequestBody Flight flight) {
 		System.out.println("delete flight in Admin Module");
 		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/delete",
 				HttpMethod.DELETE, new HttpEntity(null), new ParameterizedTypeReference<FlightResponse>() {
@@ -81,34 +85,39 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "Block flight", response = RestTemplate.class, value = "Admin can block any number flights")
 	@PostMapping("/blockFlight")
-	public FlightResponse blockFlight() {
+	public FlightResponse blockFlight(@RequestBody Flight flight) {
 		System.out.println("block flight in Admin Module");
 		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/blockFlight",
-				HttpMethod.POST, new HttpEntity(null), new ParameterizedTypeReference<FlightResponse>() {
+				HttpMethod.POST, new HttpEntity(flight), new ParameterizedTypeReference<FlightResponse>() {
 				});
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "Unblock flight", response = RestTemplate.class, value = "Admin can unBlock any number flights")
 	@PostMapping("/unBlockFlight")
-	public FlightResponse unBlockFlight() {
+	public FlightResponse unBlockFlight(@RequestBody Flight flight) {
 		System.out.println("Unblock flight in Admin Module");
 		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/unBlockFlight",
-				HttpMethod.POST, new HttpEntity(null), new ParameterizedTypeReference<FlightResponse>() {
+				HttpMethod.POST, new HttpEntity(flight), new ParameterizedTypeReference<FlightResponse>() {
 				});
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "Add coupon", response = RestTemplate.class, value = "Admin can add or update any Coupon")
 	@PostMapping("/addCoupon")
 	public FlightResponse addCoupon(@RequestBody Coupon coupon) {
 		return new FlightResponse("200", null, adminService.addCoupon(coupon), null);
 	}
 
+	@ApiOperation(notes = "View Coupon", response = RestTemplate.class, value = "Admin can view all the coupons")
 	@GetMapping("/viewCoupon")
 	public FlightResponse viewCoupon() {
 		return new FlightResponse("200", null, "All coupon fetched for admin", adminService.viewCoupon());
 	}
 
+	@ApiOperation(notes = "Book flight for user", response = RestTemplate.class, value = "User can book any flight")
 	@PostMapping("/user/bookUser/{flightNumber}")
 	public UserResponse bookUser(@RequestBody User user, @PathVariable int flightNumber) {
 		System.out.println("book User in user module");
@@ -118,6 +127,7 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "User History", response = RestTemplate.class, value = "User can search all the flights booked by him/her by giving the mail-id")
 	@GetMapping("/user/userHistory/{mail}")
 	public UserResponse getUserHistory(@PathVariable String mail) {
 		System.out.println("view the history of user");
@@ -127,6 +137,7 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "User can cancel flight", response = RestTemplate.class, value = "User can cancel the booked flight by giving the PNR number")
 	@DeleteMapping("/user/cancel/{pnr}")
 	public UserResponse cancelTicket(@PathVariable int pnr) {
 		System.out.println("Cancel the ticket for user");
@@ -136,6 +147,7 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	@ApiOperation(notes = "Download ticket", response = RestTemplate.class, value = "User can download the ticket by giving the PNR number")
 	@GetMapping("user/download/{pnrnum}")
 	public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable String pnrnum) throws DataNotFoundException {
 		String path = "D:\\pdf Generator\\" + pnrnum + ".pdf";
@@ -154,12 +166,14 @@ public class AdminController {
 		}
 	}
 
+	@ApiOperation(notes = "Add coupon for user", response = RestTemplate.class, value = "User can add coupon")
 	@GetMapping("/user/couponAdd/{coupon}")
 	public Map<Integer, String> userAddCoupon(@PathVariable String coupon) {
 		System.out.println("User trying to give a coupon");
 		return adminService.userAddCoupon(coupon);
 	}
 
+	@ApiOperation(notes = "Book flight", response = RestTemplate.class, value = "User can book flight by giving the DATE,SOURCE,DESTINATION")
 	@GetMapping("/user/getUserFlight/{flightDate}/{fromPlace}/{toPlace}")
 	public FlightResponse getUserFlight(@PathVariable String flightDate, @PathVariable String fromPlace,
 			@PathVariable String toPlace) {

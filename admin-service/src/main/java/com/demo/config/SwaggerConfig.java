@@ -24,19 +24,20 @@ public class SwaggerConfig {
         // add package
         .apis(RequestHandlerSelectors.basePackage("com.demo"))
         // .apis(RequestHandlerSelectors.basePackage("org.springframework.boot.autoconfigure.web.servlet.error"))
+.paths(PathSelectors.any())
 
         // add url
-        .paths(PathSelectors.ant("/v2/api/admin/**"))
+       // .paths(PathSelectors.ant("/v2/api/admin/**"))
         // .paths(PathSelectors.ant("/error"))
 
         .build()
         .apiInfo(
             new ApiInfoBuilder()
             .contact(new Contact("cts", "www.cts.com", "demo@cts.com"))
-            .license("NUMBER")
+            .license("8763905325")
             .licenseUrl("www.cts.com/privacy/license")
             .version("3.5")
-            .description("This is swagger demo")
+            .description("THIS IS ADMIN SERVICE PAGE")
             .title("ADMIN")
             .build()
 
