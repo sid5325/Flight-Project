@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpEntity;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,8 +59,9 @@ public class AdminController {
 	 */
 	@ApiOperation(notes = "Admin add flight", response = RestTemplate.class, value = "Admin can add any number flights")
 	@PostMapping("/add")
+	@CachePut(key="#flight",value="flightResponse")
 	public FlightResponse addFlight(@RequestBody Flight flight) {
-		System.out.println("In Flight Controller, finding all flight from Flight service");
+		System.out.println("In Admin Controller, add flights");
 		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/add",
 				HttpMethod.POST, new HttpEntity(flight), new ParameterizedTypeReference<FlightResponse>() {
 				});
@@ -66,6 +70,8 @@ public class AdminController {
 
 	@ApiOperation(notes = "Admin can search all flights", response = RestTemplate.class, value = "Search all flights from database for Admin")
 	@GetMapping("/search")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@Cacheable(value="flightResponse")
 	public FlightResponse searchFlight() {
 		System.out.println("Search all Flight for Admin");
 		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/searchAll",
@@ -75,50 +81,72 @@ public class AdminController {
 		return res.getBody();
 	}
 
+	/*@ApiOperation(notes = "Admin can search flight by giving flight Number", response = RestTemplate.class, value = "Search all flights from database for Admin")
+	@GetMapping("/search")
+	@Cacheable(value="flightResponse")
+	public FlightResponse searchFlightById() {
+		System.out.println("Search Flight for Admin by Id");
+		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/searchAll",
+				HttpMethod.GET, new HttpEntity(null), FlightResponse.class,
+				new ParameterizedTypeReference<FlightResponse>() {
+				});
+		return res.getBody();
+	}*/
+	
 	@ApiOperation(notes = "Delete Flight", response = RestTemplate.class, value = "Admin can delete any number flights")
-	@DeleteMapping("/delete")
-	public FlightResponse deleteFlight(@RequestBody Flight flight) {
+	@DeleteMapping("/delete/{id}")
+	@CrossOrigin(origins="http://localhost:4200/")
+	public FlightResponse deleteFlight(@PathVariable int id) {
 		System.out.println("delete flight in Admin Module");
-		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/delete",
+		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/delete/"+id,
 				HttpMethod.DELETE, new HttpEntity(null), new ParameterizedTypeReference<FlightResponse>() {
 				});
 		return res.getBody();
 	}
 
 	@ApiOperation(notes = "Block flight", response = RestTemplate.class, value = "Admin can block any number flights")
-	@PostMapping("/blockFlight")
-	public FlightResponse blockFlight(@RequestBody Flight flight) {
+	@PostMapping("/blockFlight/{id}")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@CachePut(key="#flight",value="flightResponse")
+	public FlightResponse blockFlight(@PathVariable int id) {
 		System.out.println("block flight in Admin Module");
-		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/blockFlight",
-				HttpMethod.POST, new HttpEntity(flight), new ParameterizedTypeReference<FlightResponse>() {
+		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/blockFlight/"+id,
+				HttpMethod.POST, new HttpEntity(null), new ParameterizedTypeReference<FlightResponse>() {
 				});
 		return res.getBody();
 	}
 
 	@ApiOperation(notes = "Unblock flight", response = RestTemplate.class, value = "Admin can unBlock any number flights")
-	@PostMapping("/unBlockFlight")
-	public FlightResponse unBlockFlight(@RequestBody Flight flight) {
+	@PostMapping("/unBlockFlight/{id}")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@CachePut(key="#flight",value="flightResponse")
+	public FlightResponse unBlockFlight(@PathVariable int id) {
 		System.out.println("Unblock flight in Admin Module");
-		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/unBlockFlight",
-				HttpMethod.POST, new HttpEntity(flight), new ParameterizedTypeReference<FlightResponse>() {
+		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/unBlockFlight/"+id,
+				HttpMethod.POST, new HttpEntity(null), new ParameterizedTypeReference<FlightResponse>() {
 				});
 		return res.getBody();
 	}
 
 	@ApiOperation(notes = "Add coupon", response = RestTemplate.class, value = "Admin can add or update any Coupon")
 	@PostMapping("/addCoupon")
+	@CrossOrigin(origins="http://localhost:4200/")
+	@CachePut(key="#coupon",value="flightResponse")
 	public FlightResponse addCoupon(@RequestBody Coupon coupon) {
 		return new FlightResponse("200", null, adminService.addCoupon(coupon), null);
 	}
 
 	@ApiOperation(notes = "View Coupon", response = RestTemplate.class, value = "Admin can view all the coupons")
 	@GetMapping("/viewCoupon")
+	@CrossOrigin(origins="http://localhost:4200/")
+	@Cacheable(value="flightResponse")
 	public FlightResponse viewCoupon() {
 		return new FlightResponse("200", null, "All coupon fetched for admin", adminService.viewCoupon());
 	}
 
 	@ApiOperation(notes = "Book flight for user", response = RestTemplate.class, value = "User can book any flight")
 	@PostMapping("/user/bookUser/{flightNumber}")
+	@CachePut(key="#flightNumber",value="userResponse")
 	public UserResponse bookUser(@RequestBody User user, @PathVariable int flightNumber) {
 		System.out.println("book User in user module");
 		ResponseEntity<UserResponse> res = restTemplate.exchange("http://localhost:8091/bookUser" + "/" + flightNumber,
@@ -129,6 +157,7 @@ public class AdminController {
 
 	@ApiOperation(notes = "User History", response = RestTemplate.class, value = "User can search all the flights booked by him/her by giving the mail-id")
 	@GetMapping("/user/userHistory/{mail}")
+	@Cacheable(key="#mail",value="userResponse")
 	public UserResponse getUserHistory(@PathVariable String mail) {
 		System.out.println("view the history of user");
 		ResponseEntity<UserResponse> res = restTemplate.exchange("http://localhost:8091/userHistory" + "/" + mail,
@@ -168,6 +197,7 @@ public class AdminController {
 
 	@ApiOperation(notes = "Add coupon for user", response = RestTemplate.class, value = "User can add coupon")
 	@GetMapping("/user/couponAdd/{coupon}")
+	@Cacheable(key="#coupon",value="map")
 	public Map<Integer, String> userAddCoupon(@PathVariable String coupon) {
 		System.out.println("User trying to give a coupon");
 		return adminService.userAddCoupon(coupon);
@@ -175,6 +205,7 @@ public class AdminController {
 
 	@ApiOperation(notes = "Book flight", response = RestTemplate.class, value = "User can book flight by giving the DATE,SOURCE,DESTINATION")
 	@GetMapping("/user/getUserFlight/{flightDate}/{fromPlace}/{toPlace}")
+	@Cacheable(key="#flightDate",value="flightResponse")
 	public FlightResponse getUserFlight(@PathVariable String flightDate, @PathVariable String fromPlace,
 			@PathVariable String toPlace) {
 		System.out.println("Get flight details fetched by user");

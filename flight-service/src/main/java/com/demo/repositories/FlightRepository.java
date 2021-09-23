@@ -19,5 +19,10 @@ public interface FlightRepository extends JpaRepository<Flight, FlightId> {
 
 	@Query(value = "select f.* from Flight f where f.flight_date=?1 and f.from_place=?2 and f.to_place=?3 ", nativeQuery = true)
 	List<Flight> findFlightForUser(String flightDate, String fromPlace, String ToPlace);
-
+	
+	@Query(value = "select f.* from Flight f where f.flight_number=?1", nativeQuery = true)
+	Flight getFlightDetailsById(int id);
+	
+	@Query(value = "delete from Flight f where f.flight_number=?1", nativeQuery = true)
+	void deleteFlightDetailsById(int id);
 }

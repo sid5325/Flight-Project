@@ -21,6 +21,11 @@ public class FlightService {
 		return flightRepository.findAll();
 
 	}
+	
+	public Flight getFlightById(Integer flightNumber) {
+		return flightRepository.getFlightDetailsById(flightNumber);
+		
+	}
 
 	@SuppressWarnings("removal")
 	public String updateFlight(Flight flight) throws FlightException {
@@ -81,8 +86,8 @@ public class FlightService {
 	}
 
 	@ExceptionHandler(value = FlightException.class)
-	public String deleteFlight(Flight flight) throws FlightException {
-		Flight flightFromDb = getFlight(flight);
+	public String deleteFlight(Integer id) throws FlightException {
+		Flight flightFromDb =getFlightById(id);
 		if (flightFromDb == null) {
 			return "The Flight you are trying to delete is not present from Database";
 		}
@@ -94,8 +99,8 @@ public class FlightService {
 	}
 
 	@ExceptionHandler(value = FlightException.class)
-	public String blockFlight(Flight flight) throws FlightException {
-		Flight flightFromDb = getFlight(flight);
+	public String blockFlight(int id) throws FlightException {
+		Flight flightFromDb = getFlightById(id);
 		if (flightFromDb == null) {
 			return "The Flight You are trying to block is not present in Database";
 		}
@@ -108,8 +113,8 @@ public class FlightService {
 	}
 	
 	@ExceptionHandler(value = FlightException.class)
-	public String unBlockFlight(Flight flight) throws FlightException {
-		Flight flightFromDb = getFlight(flight);
+	public String unBlockFlight(int id) throws FlightException {
+		Flight flightFromDb = getFlightById(id);
 		if (flightFromDb == null) {
 			return "The Flight You are trying to enable is not present in Database";
 		}

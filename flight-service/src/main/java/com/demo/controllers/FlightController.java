@@ -3,6 +3,7 @@ package com.demo.controllers;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.demo.response.FlightResponse;
 import com.demo.service.FlightService;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200/")
 @RequestMapping("/v3/api/flight/")
 public class FlightController {
 
@@ -29,6 +31,16 @@ public class FlightController {
 	public FlightResponse getAllFlights() throws FlightException {
 		try {
 			return new FlightResponse("200", service.getAllFlight(), "All flights fetched successfully", null);
+		} catch (Exception e) {
+			throw new FlightException(
+					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
+		}
+	}
+	
+	@GetMapping("/searchById/{flightNumber}")
+	public FlightResponse getAllFlights(@PathVariable Integer flightNumber) throws FlightException {
+		try {
+			return new FlightResponse("200", service.getAllFlight(), "flight number:"+flightNumber +" fetched successfully", null);
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
@@ -50,10 +62,10 @@ public class FlightController {
 	}
 
 	//@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	@DeleteMapping("/delete")
-	public FlightResponse deleteFlight(@RequestBody Flight flight) throws FlightException {
+	@DeleteMapping("/delete/{id}")
+	public FlightResponse deleteFlight(@PathVariable int id) throws FlightException {
 		try {
-			return new FlightResponse("200", null, service.deleteFlight(flight), null);
+			return new FlightResponse("200", null, service.deleteFlight(id), null);
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while deleting Flight.Please contact your IT administrator on 8763905325");
@@ -61,10 +73,10 @@ public class FlightController {
 	}
 
 	//@RequestMapping(value = "/blockFlight", method = RequestMethod.POST, produces =org.springframework.http.MediaType.APPLICATION_JSON_VALUE, consumes =org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	@PostMapping("/blockFlight")
-	public FlightResponse blockFlight(@RequestBody Flight flight) throws FlightException {
+	@PostMapping("/blockFlight/{id}")
+	public FlightResponse blockFlight(@PathVariable int id) throws FlightException {
 		try {
-			return new FlightResponse("200", null, service.blockFlight(flight), null);
+			return new FlightResponse("200", null, service.blockFlight(id), null);
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
@@ -73,10 +85,10 @@ public class FlightController {
 	}
 
 	//@RequestMapping(value = "/unBlockFlight", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	@PostMapping("/unBlockFlight")
-	public FlightResponse unBlockFlight(@RequestBody Flight flight) throws FlightException {
+	@PostMapping("/unBlockFlight/{id}")
+	public FlightResponse unBlockFlight(@PathVariable int id) throws FlightException {
 		try {
-			return new FlightResponse("200", null, service.unBlockFlight(flight), null);
+			return new FlightResponse("200", null, service.unBlockFlight(id), null);
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");
