@@ -66,7 +66,7 @@ public class PdfGenerator {
 			for (int i = 0; i < user.getPassenger().size(); i++) {
 				System.out.println("passenger for loop");
 				Paragraph passengers = new Paragraph("Name " + user.getPassenger().get(i).getName() + "  Gender "
-						+ user.getPassenger().get(i).getGender());
+						+ user.getPassenger().get(i).getGender() +" Age "+user.getPassenger().get(i).getAge());
 				passengers.setAlignment(Element.ALIGN_CENTER);
 				document.add(passengers);
 			}

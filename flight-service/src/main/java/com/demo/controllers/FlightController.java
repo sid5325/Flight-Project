@@ -1,5 +1,7 @@
 package com.demo.controllers;
 
+import java.util.List;
+
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,8 +102,14 @@ public class FlightController {
 	public FlightResponse getAllFlightForUser(@PathVariable String flightDate, @PathVariable String fromPlace,
 			@PathVariable String toPlace) throws FlightException {
 		try {
+			List<Flight> flight=service.getAllFlightForUser(flightDate, fromPlace, toPlace);
+			if(flight!=null && !flight.isEmpty()) {
 			return new FlightResponse("200", service.getAllFlightForUser(flightDate, fromPlace, toPlace),
-					"Flights from " + fromPlace + " to" + fromPlace + " fetched successfully", null);
+					"Flights from " + fromPlace + " to " + toPlace + " fetched successfully", null);
+			}else {
+				return new FlightResponse("200", null,
+						"There are no flights to show", null);
+			}
 		} catch (Exception e) {
 			throw new FlightException(
 					"Error Occured while blocking Flight.Please contact your IT administrator on 8763905325");

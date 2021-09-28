@@ -28,6 +28,7 @@ import com.demo.exception.DataNotFoundException;
 import com.demo.models.Coupon;
 import com.demo.models.Flight;
 import com.demo.models.User;
+import com.demo.response.CouponResponse;
 import com.demo.response.FlightResponse;
 import com.demo.response.UserResponse;
 import com.demo.services.AdminService;
@@ -59,7 +60,8 @@ public class AdminController {
 	 */
 	@ApiOperation(notes = "Admin add flight", response = RestTemplate.class, value = "Admin can add any number flights")
 	@PostMapping("/add")
-	@CachePut(key="#flight",value="flightResponse")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@CachePut(key="#flight",value="flightResponse")
 	public FlightResponse addFlight(@RequestBody Flight flight) {
 		System.out.println("In Admin Controller, add flights");
 		ResponseEntity<FlightResponse> res = restTemplate.exchange("http://localhost:8090/v3/api/flight/add",
@@ -146,7 +148,8 @@ public class AdminController {
 
 	@ApiOperation(notes = "Book flight for user", response = RestTemplate.class, value = "User can book any flight")
 	@PostMapping("/user/bookUser/{flightNumber}")
-	@CachePut(key="#flightNumber",value="userResponse")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@CachePut(key="#flightNumber",value="userResponse")
 	public UserResponse bookUser(@RequestBody User user, @PathVariable int flightNumber) {
 		System.out.println("book User in user module");
 		ResponseEntity<UserResponse> res = restTemplate.exchange("http://localhost:8091/bookUser" + "/" + flightNumber,
@@ -157,7 +160,8 @@ public class AdminController {
 
 	@ApiOperation(notes = "User History", response = RestTemplate.class, value = "User can search all the flights booked by him/her by giving the mail-id")
 	@GetMapping("/user/userHistory/{mail}")
-	@Cacheable(key="#mail",value="userResponse")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@Cacheable(key="#mail",value="userResponse")
 	public UserResponse getUserHistory(@PathVariable String mail) {
 		System.out.println("view the history of user");
 		ResponseEntity<UserResponse> res = restTemplate.exchange("http://localhost:8091/userHistory" + "/" + mail,
@@ -165,9 +169,22 @@ public class AdminController {
 				});
 		return res.getBody();
 	}
+	
+	@ApiOperation(notes = "Pasenger Details", response = RestTemplate.class, value = "Pasenger details by giving pnr number")
+	@GetMapping("/user/passengerDetails/{pnr}")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@Cacheable(key="#mail",value="userResponse")
+	public UserResponse getPasengerDetails(@PathVariable int pnr) {
+		System.out.println("view the Passenger details of user");
+		ResponseEntity<UserResponse> res = restTemplate.exchange("http://localhost:8091/passengerDetails" + "/" + pnr,
+				HttpMethod.GET, new HttpEntity(null), new ParameterizedTypeReference<UserResponse>() {
+				});
+		return res.getBody();
+	}
 
 	@ApiOperation(notes = "User can cancel flight", response = RestTemplate.class, value = "User can cancel the booked flight by giving the PNR number")
 	@DeleteMapping("/user/cancel/{pnr}")
+	@CrossOrigin(origins="http://localhost:4200/")
 	public UserResponse cancelTicket(@PathVariable int pnr) {
 		System.out.println("Cancel the ticket for user");
 		ResponseEntity<UserResponse> res = restTemplate.exchange("http://localhost:8091/cancel" + "/" + pnr,
@@ -178,6 +195,7 @@ public class AdminController {
 
 	@ApiOperation(notes = "Download ticket", response = RestTemplate.class, value = "User can download the ticket by giving the PNR number")
 	@GetMapping("user/download/{pnrnum}")
+	@CrossOrigin(origins="http://localhost:4200/")
 	public ResponseEntity<InputStreamResource> downloadPdf(@PathVariable String pnrnum) throws DataNotFoundException {
 		String path = "D:\\pdf Generator\\" + pnrnum + ".pdf";
 		try {
@@ -197,15 +215,17 @@ public class AdminController {
 
 	@ApiOperation(notes = "Add coupon for user", response = RestTemplate.class, value = "User can add coupon")
 	@GetMapping("/user/couponAdd/{coupon}")
-	@Cacheable(key="#coupon",value="map")
-	public Map<Integer, String> userAddCoupon(@PathVariable String coupon) {
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@Cacheable(key="#coupon",value="map")
+	public CouponResponse userAddCoupon(@PathVariable String coupon) {
 		System.out.println("User trying to give a coupon");
 		return adminService.userAddCoupon(coupon);
 	}
 
-	@ApiOperation(notes = "Book flight", response = RestTemplate.class, value = "User can book flight by giving the DATE,SOURCE,DESTINATION")
+	@ApiOperation(notes = "Search flight", response = RestTemplate.class, value = "User can search flight by giving the DATE,SOURCE,DESTINATION")
 	@GetMapping("/user/getUserFlight/{flightDate}/{fromPlace}/{toPlace}")
-	@Cacheable(key="#flightDate",value="flightResponse")
+	@CrossOrigin(origins="http://localhost:4200/")
+	//@Cacheable(key="#flightDate",value="flightResponse")
 	public FlightResponse getUserFlight(@PathVariable String flightDate, @PathVariable String fromPlace,
 			@PathVariable String toPlace) {
 		System.out.println("Get flight details fetched by user");

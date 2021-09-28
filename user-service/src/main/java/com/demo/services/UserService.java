@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.demo.entities.Passenger;
 import com.demo.entities.User;
 import com.demo.repositories.UserRepository;
 import com.demo.utility.PdfGenerator;
@@ -21,6 +22,16 @@ public class UserService {
 	
 	public List<User> getUserHistoryWithMailId(String mail) {
 		List<User> opt = userRepository.viewUserHistory(mail);
+		if (!(opt.isEmpty() || opt==null)) {
+			return opt;
+		} else {
+			return null;
+		}
+	}
+	
+	public List<Passenger> getUserHistoryWithPnr(int pnr) {
+		Optional<User> opts = userRepository.findById(pnr);
+		List<Passenger> opt =opts.get().getPassenger();
 		if (!(opt.isEmpty() || opt==null)) {
 			return opt;
 		} else {

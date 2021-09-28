@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.demo.dao.AdminDao;
 import com.demo.dao.CouponDao;
 import com.demo.models.Coupon;
+import com.demo.response.CouponResponse;
 
 @Service
 public class AdminService {
@@ -40,15 +41,13 @@ public class AdminService {
 		return coupon;
 	}
 
-	public Map<Integer, String> userAddCoupon(String coupon) {
-		Map<Integer, String> map = new HashMap<>();
+	public CouponResponse userAddCoupon(String coupon) {
 		Optional<Coupon> coupo = couponDao.findById(coupon);
 		if (coupo.isPresent()) {
-			map.put(coupo.get().getDiscount(), "Coupon code applied successfully");
+			return new CouponResponse(coupo.get().getDiscount(),"Coupon code applied successfully");
 		} else {
-			map.put(0, "Please enter a valid coupon");
+			return new CouponResponse(0,"Please enter a valid coupon");
 		}
-		return map;
 	}
 
 	/*
