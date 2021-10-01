@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.demo.config.CouponKafkaProducer;
 import com.demo.dao.AdminDao;
 import com.demo.dao.CouponDao;
 import com.demo.models.Coupon;
@@ -24,11 +26,16 @@ public class AdminService {
 
 	@Autowired
 	private JwtUserDetailsService jwtUserService;
+	
+	@Autowired
+	private KafkaTemplate<String,Coupon> couponKafka;
 
 	public String addCoupon(Coupon coupon) {
 		Optional<Coupon> coupo = couponDao.findById(coupon.getCouponCode());
 		if (!coupo.isPresent()) {
-			couponDao.save(coupon);
+			//couponDao.save(coupon);
+			//CouponKafkaProducer couponKafkaProducer=new CouponKafkaProducer();
+			couponKafka.send("coupontopic",coupon);
 			return "Coupon added successfully" + " with" + " coupon code " + coupon.getCouponCode();
 		} else {
 			couponDao.save(coupon);

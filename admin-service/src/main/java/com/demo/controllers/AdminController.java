@@ -133,7 +133,7 @@ public class AdminController {
 	@ApiOperation(notes = "Add coupon", response = RestTemplate.class, value = "Admin can add or update any Coupon")
 	@PostMapping("/addCoupon")
 	@CrossOrigin(origins="http://localhost:4200/")
-	@CachePut(key="#coupon",value="flightResponse")
+	//@CachePut(key="#coupon",value="flightResponse")
 	public FlightResponse addCoupon(@RequestBody Coupon coupon) {
 		return new FlightResponse("200", null, adminService.addCoupon(coupon), null);
 	}
@@ -141,7 +141,7 @@ public class AdminController {
 	@ApiOperation(notes = "View Coupon", response = RestTemplate.class, value = "Admin can view all the coupons")
 	@GetMapping("/viewCoupon")
 	@CrossOrigin(origins="http://localhost:4200/")
-	@Cacheable(value="flightResponse")
+	//@Cacheable(value="flightResponse")
 	public FlightResponse viewCoupon() {
 		return new FlightResponse("200", null, "All coupon fetched for admin", adminService.viewCoupon());
 	}
