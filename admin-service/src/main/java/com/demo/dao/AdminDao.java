@@ -9,7 +9,7 @@ import com.demo.models.AdminDto;
 @Repository
 public interface AdminDao extends CrudRepository<AdminDto, String> {
 
-	@Query(value = "select user_name,pass_word from Admin ", nativeQuery = true)
+	@Query(value = "select username,password from admin ", nativeQuery = true)
 	public String getVerification();
 
 }

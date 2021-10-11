@@ -217,7 +217,7 @@ public class AdminController {
 	@GetMapping("/user/couponAdd/{coupon}")
 	@CrossOrigin(origins="http://localhost:4200/")
 	//@Cacheable(key="#coupon",value="map")
-	public CouponResponse userAddCoupon(@PathVariable String coupon) {
+	public CouponResponse userAddCoupon(@PathVariable String coupon)  {
 		System.out.println("User trying to give a coupon");
 		return adminService.userAddCoupon(coupon);
 	}

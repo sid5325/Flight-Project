@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 	
 
 	
-	@Query(value="select u.* from USER u where u.email_id = ?1", nativeQuery = true)
+	@Query(value="select u.* from user u where u.email_id = ?1", nativeQuery = true)
 	public List<User> viewUserHistory(String emailId);
 	
 	/*
